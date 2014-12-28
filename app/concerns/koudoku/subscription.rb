@@ -58,6 +58,7 @@ module Koudoku::Subscription
         else
           # if a new plan has been selected
           if self.plan.present?
+            puts "PLAN IS PRESENT ==> #{plan.inspect}"
 
             # Record the new plan pricing.
             self.current_price = self.plan.price
@@ -73,17 +74,21 @@ module Koudoku::Subscription
                 card: credit_card_token # obtained with Stripe.js
               }
 
+              puts "CUSTOMER ATTRIBUTES ==> #{customer_attributes}"
+
               # If the class we're being included in supports coupons ..
               if respond_to? :coupon
                 if coupon.present? and coupon.free_trial?
                   customer_attributes[:trial_end] = coupon.free_trial_ends.to_i
                 end
               end
-              
-              customer_attributes[:coupon] = @coupon_code if @coupon_code 
+
+              customer_attributes[:coupon] = @coupon_code if @coupon_code
 
               # create a customer at that package level.
               customer = Stripe::Customer.create(customer_attributes)
+
+              puts "AFTER CREATE STRIPE CUSTOMER ==> #{customer.inspect}"
 
               finalize_new_customer!(customer.id, plan.price)
               customer.update_subscription(:plan => plan.stripe_id)
@@ -155,7 +160,7 @@ module Koudoku::Subscription
       end
     end
   end
-  
+
   # Set a Stripe coupon code that will be used when a new Stripe customer (a.k.a. Koudoku subscription)
   # is created
   def coupon_code=(new_code)
@@ -182,7 +187,7 @@ module Koudoku::Subscription
 
   def subscription_owner_email
     "#{subscription_owner.try(:email)}"
-    
+
   end
 
   def changing_plans?
