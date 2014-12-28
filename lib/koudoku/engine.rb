@@ -20,7 +20,7 @@ module Koudoku
       puts "BUNDLER DEFINED ==> #{defined?(::Bundler)}"
       puts "RAKE DEFINED ==> #{defined?(::Rake)}"
       if Koudoku.create_plans_in_stripe?
-        if ::Plan.defined?
+        if defined?(::Plan)
           ::Plan.all.each do |plan|
             begin
               puts "PLAN ===> #{plan.inspect}"
