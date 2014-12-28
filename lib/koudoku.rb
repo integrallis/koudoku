@@ -1,3 +1,4 @@
+require 'money-rails'
 require "koudoku/engine"
 require "generators/koudoku/install_generator"
 require "generators/koudoku/views_generator"

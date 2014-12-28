@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails"
   s.add_dependency "stripe"
+  s.add_dependency "money-rails"
   s.add_dependency "bluecloth"
 
   s.add_development_dependency "jquery-rails"

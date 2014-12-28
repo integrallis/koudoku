@@ -5,4 +5,6 @@ class Plan < ActiveRecord::Base
   belongs_to :coupon
   has_many :subscriptions
 
+  monetize :price_cents
+
 end

@@ -7,7 +7,7 @@ class CreateSubscriptions < ActiveRecord::Migration
       t.integer :coupon_id
       t.string :last_four
       t.string :card_type
-      t.float :current_price
+      t.integer :current_price_cents
       t.integer :customer_id
 
       t.timestamps

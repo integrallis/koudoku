@@ -3,7 +3,7 @@ class CreatePlans < ActiveRecord::Migration
     create_table :plans do |t|
       t.string :name
       t.string :stripe_id
-      t.float :price
+      t.integer :price_cents
       t.text :features
       t.boolean :highlight
       t.integer :display_order

@@ -17,27 +17,21 @@ module Koudoku
     end
 
     initializer 'kouduku.create_plans' do |app|
-      puts "BUNDLER DEFINED ==> #{defined?(::Bundler)}"
-      puts "RAKE DEFINED ==> #{defined?(::Rake)}"
-      puts "PLAN DEFINED ==> #{defined?(::Plan)}"
-      puts "Koudoku.create_plans_in_stripe? ==> #{Koudoku.create_plans_in_stripe?}"
-
       if Koudoku.create_plans_in_stripe?
         begin
           ::Plan.all.each do |plan|
             begin
-              puts "PLAN ===> #{plan.inspect}"
+              puts "(kouduku) Found local Plan: #{plan.stripe_id} (#{plan.name})"
               stripe_plan = Stripe::Plan.retrieve(plan.stripe_id)
             rescue Stripe::InvalidRequestError => ire
-              puts "#{ire} ==> #{ire.message}"
               if ire.message == "No such plan: #{plan.stripe_id}"
-                puts "Ok, creating plan ==> #{plan.stripe_id}"
+                puts "(kouduku) Creating matching Plan in Stripe: #{plan.stripe_id} (#{plan.name})"
                 Stripe::Plan.create(
-                :amount => plan.price.to_i,
-                :interval => plan.interval,
-                :name => plan.name,
-                :currency => 'usd',
-                :id => plan.stripe_id
+                  :amount => plan.price,
+                  :interval => plan.interval,
+                  :name => plan.name,
+                  :currency => 'usd',
+                  :id => plan.stripe_id
                 )
               end
             end

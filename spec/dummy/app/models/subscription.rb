@@ -4,4 +4,5 @@ class Subscription < ActiveRecord::Base
   belongs_to :customer
   belongs_to :coupon
 
+  monetize :current_price_cents
 end

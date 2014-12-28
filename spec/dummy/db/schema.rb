@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20130520163946) do
   create_table "plans", :force => true do |t|
     t.string   "name"
     t.string   "stripe_id"
-    t.float    "price"
+    t.integer  "price_cents"
     t.text     "features"
     t.boolean  "highlight"
     t.integer  "display_order"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(:version => 20130520163946) do
     t.string   "last_four"
     t.integer  "coupon_id"
     t.string   "card_type"
-    t.float    "current_price"
+    t.integer  "current_price_cents"
     t.integer  "customer_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false

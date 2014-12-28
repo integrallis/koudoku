@@ -1,8 +1,10 @@
 module Koudoku
   module ApplicationHelper
 
+    include MoneyRails::ActionViewExtension
+
     def plan_price(plan)
-      "#{number_to_currency(plan.price)}/#{plan_interval(plan)}"
+      "#{humanized_money_with_symbol(plan.price, :no_cents => false)}/#{plan_interval(plan)}"
     end
 
     def plan_interval(plan)
@@ -17,10 +19,10 @@ module Koudoku
         "half-year"
       when "3-month"
         "quarter"
-      else 
+      else
         "month"
       end
     end
-    
+
   end
 end

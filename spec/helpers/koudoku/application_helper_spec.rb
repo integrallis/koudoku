@@ -25,5 +25,5 @@ describe Koudoku::ApplicationHelper do
       plan = Plan.new(price: 12.34, interval: '3-month')
       expect(helper.plan_price(plan)).to eq "$12.34/quarter"
     end
-  end 
+  end
 end
