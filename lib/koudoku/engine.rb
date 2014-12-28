@@ -18,7 +18,7 @@ module Koudoku
 
     initializer 'kouduku.create_plans' do |app|
       if Koudoku.create_plans_in_stripe?
-        Plan.all.each do |plan|
+        ::Plan.all.each do |plan|
           begin
             puts "PLAN ===> #{plan.inspect}"
             stripe_plan = Stripe::Plan.retrieve(plan.stripe_id)
