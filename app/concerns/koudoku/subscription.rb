@@ -169,16 +169,17 @@ module Koudoku::Subscription
 
   # Pretty sure this wouldn't conflict with anything someone would put in their model
   def subscription_owner
+    owner = send Koudoku.subscriptions_owned_by
     # Return whatever we belong to.
     # If this object doesn't respond to 'name', please update owner_description.
     if Koudoku.customer_accessor
       if Koudoku.customer_accessor.kind_of?(Array)
         Koudoku.customer_accessor.inject(self) {|o, a| o.send(a); o }
       else
-        send Koudoku.customer_accessor
+        owner.send Koudoku.customer_accessor
       end
     else
-      send Koudoku.subscriptions_owned_by
+      owner
     end
   end
 
