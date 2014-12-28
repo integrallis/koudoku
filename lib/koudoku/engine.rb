@@ -17,7 +17,9 @@ module Koudoku
     end
 
     initializer 'kouduku.create_plans' do |app|
-      if Koudoku.create_plans_in_stripe? && !defined?(::Bundler) and !defined?(::Rake)
+      puts "BUNDLER DEFINED ==> #{defined?(::Bundler)}"
+      puts "RAKE DEFINED ==> #{defined?(::Rake)}"
+      if Koudoku.create_plans_in_stripe?
         if ::Plan.defined?
           ::Plan.all.each do |plan|
             begin
