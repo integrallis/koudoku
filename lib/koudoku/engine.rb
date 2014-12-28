@@ -36,7 +36,7 @@ module Koudoku
               end
             end
           end
-        rescue NameError
+        rescue NameError, ActiveRecord::StatementInvalid
           # ignore: Plan model is not defined yet (migration might not have run)
         end
       end
