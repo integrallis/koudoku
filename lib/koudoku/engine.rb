@@ -23,7 +23,7 @@ module Koudoku
       puts "Koudoku.create_plans_in_stripe? ==> #{Koudoku.create_plans_in_stripe?}"
 
       if Koudoku.create_plans_in_stripe?
-        if defined?(::Plan)
+        begin
           ::Plan.all.each do |plan|
             begin
               puts "PLAN ===> #{plan.inspect}"
@@ -42,6 +42,8 @@ module Koudoku
               end
             end
           end
+        rescue NameError
+          # ignore: Plan model is not defined yet (migration might not have run)
         end
       end
     end
