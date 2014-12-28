@@ -105,7 +105,7 @@ module Koudoku
 
       else
         @subscription = ::Subscription.new
-        @subscription.plan = ::Plan.find(params[:plan])
+        @subscription.plan = ::Plan.find_by_stripe_id(params[:plan])
       end
     end
 

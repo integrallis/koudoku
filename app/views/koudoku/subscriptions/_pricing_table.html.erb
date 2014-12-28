@@ -7,7 +7,7 @@
           <h4><%= plan_price(plan) %></h4>
           <div class="call-to-action">
             <% if @subscription.nil? %>
-              <%= link_to Koudoku.free_trial? ? 'Start Trial' : 'Sign Up', koudoku.new_subscription_path(plan: plan.id), class: "btn btn-success btn-large" %>
+              <%= link_to Koudoku.free_trial? ? 'Start Trial' : 'Sign Up', koudoku.new_subscription_path(plan: plan.stripe_id), class: "btn btn-success btn-large" %>
             <% elsif @subscription.persisted? %>
               <% if @subscription.plan == plan %>
                 <%= form_for @subscription, url: owner_subscription_path(@owner, @subscription) do |f| %>
@@ -20,7 +20,7 @@
                 <% end %>
               <% end %>
             <% else %>
-              <%= link_to Koudoku.free_trial? ? 'Start Trial' : 'Upgrade', new_owner_subscription_path(@owner, plan: plan.id), class: "btn btn-success btn-large" %>
+              <%= link_to Koudoku.free_trial? ? 'Start Trial' : 'Upgrade', new_owner_subscription_path(@owner, plan: plan.stripe_id), class: "btn btn-success btn-large" %>
             <% end %>
           </div>
           <ul class="features">
