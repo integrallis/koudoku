@@ -27,7 +27,7 @@ module Koudoku
               if ire.message == "No such plan: #{plan.stripe_id}"
                 puts "(kouduku) Creating matching Plan in Stripe: #{plan.stripe_id} (#{plan.name})"
                 Stripe::Plan.create(
-                  :amount => plan.price,
+                  :amount => plan.price_cents,
                   :interval => plan.interval,
                   :name => plan.name,
                   :currency => 'usd',
