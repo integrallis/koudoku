@@ -13,6 +13,9 @@ module Koudoku
   mattr_accessor :devise_scope
   @@devise_scope = nil
 
+  mattr_accessor :customer_accessor
+  @@customer_accessor = nil
+
   mattr_accessor :stripe_publishable_key
   @@stripe_publishable_key = nil
 

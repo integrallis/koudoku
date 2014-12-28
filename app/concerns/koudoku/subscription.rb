@@ -171,7 +171,15 @@ module Koudoku::Subscription
   def subscription_owner
     # Return whatever we belong to.
     # If this object doesn't respond to 'name', please update owner_description.
-    send Koudoku.devise_scope || Koudoku.subscriptions_owned_by
+    if Koudoku.customer_accessor
+      if Koudoku.customer_accessor.kind_of?(Array)
+        Koudoku.customer_accessor.inject(self) {|o, a| o.send(a); o }
+      else
+        send Koudoku.customer_accessor
+      end
+    else
+      send Koudoku.subscriptions_owned_by
+    end
   end
 
   def subscription_owner=(owner)
