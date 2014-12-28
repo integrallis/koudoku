@@ -58,7 +58,6 @@ module Koudoku::Subscription
         else
           # if a new plan has been selected
           if self.plan.present?
-            puts "PLAN IS PRESENT ==> #{plan.inspect}"
 
             # Record the new plan pricing.
             self.current_price = self.plan.price
@@ -74,8 +73,6 @@ module Koudoku::Subscription
                 card: credit_card_token # obtained with Stripe.js
               }
 
-              puts "CUSTOMER ATTRIBUTES ==> #{customer_attributes}"
-
               # If the class we're being included in supports coupons ..
               if respond_to? :coupon
                 if coupon.present? and coupon.free_trial?
@@ -87,8 +84,6 @@ module Koudoku::Subscription
 
               # create a customer at that package level.
               customer = Stripe::Customer.create(customer_attributes)
-
-              puts "AFTER CREATE STRIPE CUSTOMER ==> #{customer.inspect}"
 
               finalize_new_customer!(customer.id, plan.price)
               customer.update_subscription(:plan => plan.stripe_id)
