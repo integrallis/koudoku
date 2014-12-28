@@ -4,11 +4,12 @@ class CreatePlans < ActiveRecord::Migration
       t.string :name
       t.string :stripe_id
       t.integer :price_cents
+      t.string :interval
       t.text :features
       t.boolean :highlight
       t.integer :display_order
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
