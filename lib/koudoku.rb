@@ -25,6 +25,9 @@ module Koudoku
   mattr_accessor :prorate
   @@prorate = true
 
+  mattr_accessor :create_plans_in_stripe
+  @@create_plans_in_stripe = false
+
   def self.setup
     yield self
 
@@ -54,6 +57,10 @@ module Koudoku
 
   def self.free_trial?
     free_trial_length.to_i > 0
+  end
+
+  def self.create_plans_in_stripe?
+    Koudoku.create_plans_in_stripe
   end
 
 end
