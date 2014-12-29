@@ -128,6 +128,7 @@ module Koudoku
         redirect_to after_new_subscription_path
       else
         puts "SAVE FAILED"
+        puts "ERRORS ==> #{@subscription.errors.full_messages}"
         flash[:error] = 'There was a problem processing this transaction.'
         render :new
       end
