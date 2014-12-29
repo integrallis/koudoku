@@ -5,5 +5,5 @@ class Subscription < ActiveRecord::Base
   belongs_to :<%= subscription_owner_model %>
   belongs_to :coupon
 
-  monetize :current_price_cents
+  monetize :current_price_cents, allow_nil: true
 end

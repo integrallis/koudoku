@@ -6,7 +6,7 @@ module Koudoku
     before_filter :load_plans, only: [:index, :edit]
 
     def load_plans
-      @plans = ::Plan.order(:price)
+      @plans = ::Plan.order(:price_cents)
     end
 
     def unauthorized
