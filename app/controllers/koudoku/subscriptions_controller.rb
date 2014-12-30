@@ -116,19 +116,14 @@ module Koudoku
     end
 
     def create
-      puts "In subscription_controller#create ==> #{subscription_params}"
       @subscription = ::Subscription.new(subscription_params)
-      puts "SUBSCRIPTION ==> #{@subscription.inspect}"
       @subscription.subscription_owner = @owner
       @subscription.coupon_code = session[:koudoku_coupon_code]
-      puts "SUBSCRIPTION ==> #{@subscription.inspect}"
 
       if @subscription.save
         flash[:notice] = after_new_subscription_message
         redirect_to after_new_subscription_path
       else
-        puts "SAVE FAILED"
-        puts "ERRORS ==> #{@subscription.errors.full_messages}"
         flash[:error] = 'There was a problem processing this transaction.'
         render :new
       end

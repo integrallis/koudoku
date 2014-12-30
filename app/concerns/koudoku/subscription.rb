@@ -14,10 +14,8 @@ module Koudoku::Subscription
 
 
     def processing!
-      puts "IN processing!..."
       # if their package level has changed ..
       if changing_plans?
-        puts "IN changing_plans..."
         prepare_for_plan_change
 
         # and a customer exists in stripe ..
@@ -58,10 +56,8 @@ module Koudoku::Subscription
 
         # otherwise
         else
-          puts "Customer doesn't exist in Stripe..."
           # if a new plan has been selected
           if self.plan.present?
-            puts "Plan is present in subscription..."
             # Record the new plan pricing.
             self.current_price = self.plan.price
 
@@ -70,12 +66,18 @@ module Koudoku::Subscription
 
             begin
 
-              customer_attributes = {
-                description: subscription_owner_description,
-                email: subscription_owner_email,
-                card: credit_card_token # obtained with Stripe.js
-              }
-              puts "customer_attributes ==> #{customer_attributes.inspect}"
+              customer_attributes = if self.plan.free?
+                {
+                  description: subscription_owner_description,
+                  email: subscription_owner_email,
+                } 
+              else
+                {
+                  description: subscription_owner_description,
+                  email: subscription_owner_email,
+                  card: credit_card_token # obtained with Stripe.js
+                }
+              end
 
               # If the class we're being included in supports coupons ..
               if respond_to? :coupon
@@ -89,13 +91,8 @@ module Koudoku::Subscription
               # create a customer at that package level.
               customer = Stripe::Customer.create(customer_attributes)
 
-              puts "customer ==> #{customer.inspect}"
-
               finalize_new_customer!(customer.id, plan.price)
               customer.update_subscription(:plan => plan.stripe_id)
-
-              puts "customer after updating subscription ==> #{customer.inspect}"
-
             rescue Stripe::CardError => card_error
               errors[:base] << card_error.message
               card_was_declined
@@ -104,9 +101,9 @@ module Koudoku::Subscription
 
             # store the customer id.
             self.stripe_id = customer.id
-            self.last_four = customer.cards.retrieve(customer.default_card).last4
-
-            puts "AFTER store the customer id. ==> #{self.inspect}"
+            unless self.plan.free?
+              self.last_four = customer.cards.retrieve(customer.default_card).last4
+            end
 
             finalize_new_subscription!
             finalize_upgrade!
