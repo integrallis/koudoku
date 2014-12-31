@@ -29,7 +29,7 @@ module Koudoku::Subscription
 
           puts "Customer ==> #{customer.inspect}"
 
-          unless last_four.nil?
+          if last_four.nil? && !credit_card_token.nil?
             puts "Last four not present... credit_card_token ==> #{credit_card_token}"
             customer.card = credit_card_token
             customer.save
