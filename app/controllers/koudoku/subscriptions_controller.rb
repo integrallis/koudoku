@@ -148,7 +148,7 @@ module Koudoku
       puts "NEW PLAN ID ==> #{new_plan_id}"
       new_plan = ::Plan.find(new_plan_id)
       puts "CURRENT PLAN ==> #{@subscription.plan}, Free? ==> #{@subscription.plan.free?}"
-      puts "NEW PLAN ==> #{new_plan.plan}, Free? ==> #{@subscription.plan.free?}"
+      puts "NEW PLAN ==> #{new_plan}, Free? ==> #{new_plan.free?}"
       if @subscription.plan.free? && !new_plan.free? && subscription_params[credit_card_token].nil?
         flash[:notice] = "Please enter payment information to upgrade."
         redirect_to edit_owner_subscription_path(@owner, @subscription, update: 'card', plan: new_plan_id)
