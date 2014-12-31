@@ -24,6 +24,11 @@ module Koudoku::Subscription
           # fetch the customer.
           customer = Stripe::Customer.retrieve(self.stripe_id)
 
+          unless last_four.present?
+            customer.card = credit_card_token
+            customer.save
+          end
+
           # if a new plan has been selected
           if self.plan.present?
 
@@ -70,7 +75,7 @@ module Koudoku::Subscription
                 {
                   description: subscription_owner_description,
                   email: subscription_owner_email,
-                } 
+                }
               else
                 {
                   description: subscription_owner_description,
