@@ -148,7 +148,7 @@ module Koudoku
       new_plan = ::Plan.find(new_plan_id)
       if @subscription.plan.free? && !new_plan.free?
         flash[:notice] = "Please enter payment information to upgrade."
-        redirect_to edit_owner_subscription_path(@owner, @subscription, update: 'card', subscription { plan_id: new_plan_id })
+        redirect_to edit_owner_subscription_path(@owner, @subscription, update: 'card', subscription: { plan_id: new_plan_id })
       else
         if @subscription.update_attributes(subscription_params)
           flash[:notice] = "You've successfully updated your subscription."
