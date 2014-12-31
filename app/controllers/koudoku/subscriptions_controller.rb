@@ -144,10 +144,11 @@ module Koudoku
 
     def update
       #@subscription.prorate = Koudoku.prorate
-      to_plan = ::Plan.find(subscription_params[:plan_id])
-      if @subscription.plan.free? && !to_plan.free?
+      new_plan_id = subscription_params[:plan_id]
+      new_plan = ::Plan.find(new_plan_id)
+      if @subscription.plan.free? && !new_plan.free?
         flash[:notice] = "Please enter payment information to upgrade."
-        redirect_to edit_owner_subscription_path(@owner, @subscription, update: 'card')
+        redirect_to edit_owner_subscription_path(@owner, @subscription, update: 'card', plan_id: new_plan_id)
       else
         if @subscription.update_attributes(subscription_params)
           flash[:notice] = "You've successfully updated your subscription."
