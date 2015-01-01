@@ -16,24 +16,15 @@ module Koudoku::Subscription
     def processing!
       # if their package level has changed ..
       if changing_plans?
-        puts "In changing_plans?"
         prepare_for_plan_change
 
         # and a customer exists in stripe ..
         if stripe_id.present?
 
-          puts "Stripe ID is present..."
-
           # fetch the customer.
           customer = Stripe::Customer.retrieve(stripe_id)
 
-          puts "Customer ==> #{customer.inspect}"
-          puts "Customer ==> #{customer.default_card}, nil? #{customer.default_card.nil?}, blank? #{customer.default_card.blank?}"
-          puts "Credit Card Token ==> #{credit_card_token} nil? #{credit_card_token.nil?}"
-          puts "Last Four ==> #{last_four} nil? #{last_four.nil?}"
-
           if customer.default_card.nil? && !credit_card_token.nil?
-            puts "Last four not present... credit_card_token ==> #{credit_card_token}"
             customer.card = credit_card_token
             customer.save
           end
