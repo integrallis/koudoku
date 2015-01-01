@@ -28,7 +28,8 @@ module Koudoku::Subscription
           customer = Stripe::Customer.retrieve(stripe_id)
 
           puts "Customer ==> #{customer.inspect}"
-          puts "Credit Card Token ==> #{credit_card_token}"
+          puts "Credit Card Token ==> #{credit_card_token} nil? #{credit_card_token.nil?}"
+          puts "Last Four nil? #{last_four.nil?}"
 
           if last_four.nil? && !credit_card_token.nil?
             puts "Last four not present... credit_card_token ==> #{credit_card_token}"
